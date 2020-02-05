@@ -1,6 +1,6 @@
 {
-    "name": "kawikaconnell/todo",
-    "description": "A cli todo app",
+    "name": "kawikaconnell/fruiter",
+    "description": "A simple routing library. Highly inspired by functional programming.",
     "type": "project",
     "license": "MIT",
     "authors": [
