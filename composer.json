@@ -1,7 +1,7 @@
 {
     "name": "kawikaconnell/fruiter",
     "description": "A simple routing library. Highly inspired by functional programming.",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
