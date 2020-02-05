@@ -59,7 +59,7 @@ function compose(...$functions): Closure {
  * ```
  *
  * ```
- * > partial_left('str_replace', ' ' '|')('Hello John! Hello Jane!') // str_replace(' ', '_', 'Hello John! Hello Jane!');
+ * > partial_left('str_replace', ' ' '_')('Hello John! Hello Jane!') // str_replace(' ', '_', 'Hello John! Hello Jane!');
  * 'Hello_John!_Hello_Jane!'
  * ```
  *
@@ -111,7 +111,7 @@ function partial_right(callable $function, ...$fixedArguments): Closure {
  * MatchResult{$matched = false, $arguments = []}
  * ```
  *
- * Parameters can have optional.
+ * Parameters can have optional parameters.
  * ```
  * > (new Matcher(' '))('must match {?this}', 'must match');
  * MatchResult{$matched = true, $arguments = ['this' => null]}
@@ -172,23 +172,14 @@ class Matcher
         )($x);
     }
 
-    /**
-     * Tells you if the $parameterChunk is an optional argument.
-     */
     protected static function _isOptionalParameter(string $parameterChunk): bool {
         return ($parameterChunk[0] ?? '').($parameterChunk[1] ?? '') === self::OPTIONAL_PARAMETER_OPENING_STRING;
     }
 
-    /**
-     * Tells you if the $parameterChunk is an argument.
-     */
     protected static function _isParameter(string $parameterChunk): bool {
         return $parameterChunk[0] === self::PARAMETER_OPENING_STRING;
     }
 
-    /**
-     * Gets the parameter name.
-     */
     protected static function _getParameterName(string $parameterChunk, string $type = self::PARAMETER_OPENING_STRING): string {
         return substr(
             $parameterChunk,
@@ -233,7 +224,7 @@ class MatchResult
  * RoutingResult{$route = Route, $arguments = []}
  * ```
  *
- * The Router extracts arguments from the query.
+ * It extracts arguments from the query.
  * ```
  * > (new Router(new Matcher(' ')))($routes, 'hello John');
  * RoutingResult{$route = Route, $arguments = ['name' => 'John']}
@@ -347,7 +338,7 @@ const URI_DELIMITER = '/';
  * RoutingResult{$route = Route, $arguments = ['name' => '&lt;br&gt;John']}
  * ```
  *
- * Returns null when no matching routes wher found.
+ * Returns null when no matching routes were found.
  * ```
  * > uri_router($routes, 'no/match');
  * null
@@ -385,7 +376,7 @@ const CLI_DELIMITER = ' ';
  * RoutingResult{$route = Route, $arguments = ['name' => 'John']}
  * ```
  *
- * Returns null when no matching routes wher found.
+ * Returns null when no matching routes were found.
  * ```
  * > (new Router(new Matcher(' ')))($routes, 'no match');
  * null
