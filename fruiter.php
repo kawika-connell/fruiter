@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * ``` @setUp for Router, uri_router, cli_router
+ * ``` @setUp 'routes.' For Router, uri_router, cli_router
  * > $routes = [
- * >     new Route('/', function () { return 'Hello World!' })
+ * >     new Route('/', function () { return 'Hello World!' }),
  * >     new Route('hello/{name}', function($arguments) { return "Hello {$arguments['name']}" })
  * > ];
  * ```
@@ -29,6 +29,10 @@ function append(array $appendTo, ...$appends): array {
     }
 
     return $appendTo;
+}
+
+function default_($input, $default) {
+    return $input ?? $default;
 }
 
 /**
@@ -219,19 +223,19 @@ class MatchResult
 
 /**
  * Gets route matching query from a group of routes.
- * ```
+ * ``` @see setUp for 'routes.'
  * > (new Router(new Matcher(' ')))($routes, '');
  * RoutingResult{$route = Route, $arguments = []}
  * ```
  *
  * It extracts arguments from the query.
- * ```
+ * ``` @see setUp for 'routes.'
  * > (new Router(new Matcher(' ')))($routes, 'hello John');
  * RoutingResult{$route = Route, $arguments = ['name' => 'John']}
  * ```
  *
  * Returns null when no matching routes were found.
- * ```
+ * ``` @see setUp for 'routes.'
  * > (new Router(new Matcher(' ')))($routes, 'no match');
  * null
  * ```
@@ -321,25 +325,25 @@ const URI_DELIMITER = '/';
 
 /**
  * Gets the route that matches the $query.
- * ```
+ * ``` @see setUp for 'routes.'
  * > uri_router($routes, '/');
  * RoutingResult{$route = Route, $arguments = []}
  * ```
  *
  * uri_router() extracts parameters from the query.
- * ```
+ * ``` @see setUp for 'routes.'
  * > uri_router($routes, 'hello/John');
  * RoutingResult{$route = Route, $arguments = ['name' => 'John']}
  * ```
  *
  * uri_router() passes arguments through htmlspecialchars by default().
- * ```
+ * ``` @see setUp for 'routes.'
  * > uri_router($routes, 'hello/<br>John');
  * RoutingResult{$route = Route, $arguments = ['name' => '&lt;br&gt;John']}
  * ```
  *
  * Returns null when no matching routes were found.
- * ```
+ * ``` @see setUp for 'routes.'
  * > uri_router($routes, 'no/match');
  * null
  * ```
@@ -365,20 +369,20 @@ const CLI_DELIMITER = ' ';
 
 /**
  * Gets the route that matches the $query.
- * ```
- * > (new Router(new Matcher(' ')))($routes, '');
+ * ``` @see setUp for 'routes.'
+ * > cli_router($routes, '');
  * RoutingResult{$route = Route, $arguments = []}
  * ```
  *
  * cli_router() extracts parameters from the query.
- * ```
- * > (new Router(new Matcher(' ')))($routes, 'hello John');
+ * ``` @see setUp for 'routes.'
+ * > cli_router($routes, 'hello John');
  * RoutingResult{$route = Route, $arguments = ['name' => 'John']}
  * ```
  *
  * Returns null when no matching routes were found.
- * ```
- * > (new Router(new Matcher(' ')))($routes, 'no match');
+ * ``` @see setUp for 'routes.'
+ * > cli_router($routes, 'no match');
  * null
  * ```
  *
@@ -386,4 +390,24 @@ const CLI_DELIMITER = ' ';
  */
 function cli_router(array $routes, string $query): ?RoutingResult {
     return (new Router(new Matcher(CLI_DELIMITER)))($routes, $query);
+}
+
+
+/**
+ * Extracts path from url.
+ * ```
+ * > get_path_from_url('http://website.com')
+ * '/'
+ > > get_path_from_url('http://website.com/?query=string')
+ * '/'
+ > > get_path_from_url('http://website.com/path/to/something')
+ * '/'
+ * ```
+ */
+function get_path_from_url(string $url): string {
+    return compose(
+        partial_right('parse_url', PHP_URL_PATH),
+        partial_right('KawikaConnell\Fruiter\default_', '/'),
+        'rawurldecode'
+    )($url);
 }

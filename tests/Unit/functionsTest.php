@@ -10,6 +10,7 @@ use KawikaConnell\Fruiter\Route;
 use function KawikaConnell\Fruiter\compose;
 use function KawikaConnell\Fruiter\partial_left;
 use function KawikaConnell\Fruiter\partial_right;
+use function KawikaConnell\Fruiter\get_path_from_url;
 
 class functionsTest extends TestCase
 {
@@ -58,5 +59,13 @@ class functionsTest extends TestCase
             str_replace('are', '**redacted**', $x),
             $redactInSentence('are')
         );
+    }
+
+    public function testGetPathFromUrl()
+    {
+        $this->assertEquals('/', get_path_from_url('http://website.com'));
+        $this->assertEquals('/', get_path_from_url('http://website.com/?query=string'));
+        $this->assertEquals('/path', get_path_from_url('http://website.com/path'));
+        $this->assertEquals('/path/to/something', get_path_from_url('http://website.com/path/to/something'));
     }
 }
