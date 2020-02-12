@@ -401,7 +401,7 @@ function cli_router(array $routes, string $query): ?RoutingResult {
  > > get_path_from_url('http://website.com/?query=string')
  * '/'
  > > get_path_from_url('http://website.com/path/to/something')
- * '/'
+ * '/path/to/something'
  * ```
  */
 function get_path_from_url(string $url): string {
