@@ -62,7 +62,7 @@ echo $action($arguments);
 - route matching the query,
 - and the arguments extracted from the query.
 You can access these via the `getRoute()` and `getArguments()` methods:
-```
+```php
 $routingResult = new KawikaConnell\Fruiter\RoutingResult(new Route(...), []);
 $routingResult->getRoute();     // Route
 $routingResult->getArguments(); // array
@@ -91,7 +91,7 @@ $routingResult->getArguments(); // ['person' => 'John-ish', 'company' => 'John C
 
 ### Route
 `KawikaConnell\Fruiter\Route` is a class made to hold a pattern, and an action. You can access these via the `getPattern()` and `getAction` methods.
-```
+```php
 $route = new KawikaConnell\Fruiter\Route('/', function(...) {...});
 
 $route->getPattern(); // "/" (string) 
@@ -157,7 +157,7 @@ argumentsExtracted = [
 ]
 ```
 
-You can have multiple optional paramters in succession:
+You can have multiple optional parameters in succession:
 ```
 pattern = '/project/{?projectId}/{?taskId}'
 query   = '/project'
