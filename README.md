@@ -182,4 +182,3 @@ argumentsExtracted = []
 
 - Create an HTTP router that also checks for matching methods, and handles HTTP errors.
 - Create a command line application router that accounts for flags for short flags, long flags and flag arguments.
-- Add
